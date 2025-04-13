@@ -21,6 +21,6 @@ public class Edificio {
 
     @Override
     public String toString() {
-        return nombre;
+        return "Edificio " + id;
     }
 }
