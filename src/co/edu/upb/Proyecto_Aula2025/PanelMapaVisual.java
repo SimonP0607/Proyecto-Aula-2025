@@ -48,10 +48,10 @@ public class PanelMapaVisual extends JPanel {
 
         // Dibujar caminos
         for (Edificio origen : mapa.obtenerTodosLosEdificios()) {
-            List<Camino> caminos = mapa.obtenerCaminosDesde(origen);
+            List<Aristas> caminos = mapa.obtenerCaminosDesde(origen);
             Point puntoOrigen = posiciones.get(origen);
 
-            for (Camino camino : caminos) {
+            for (Aristas camino : caminos) {
                 Edificio destino = camino.getDestino();
                 Point puntoDestino = posiciones.get(destino);
 

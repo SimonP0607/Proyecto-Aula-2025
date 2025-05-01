@@ -1,13 +1,13 @@
 package co.edu.upb.Proyecto_Aula2025;
 
-public class Camino {
+public class Aristas {
     private Edificio origen;
     private Edificio destino;
     private double distancia;
     private boolean tieneEscaleras;
     private boolean activo;
 
-    public Camino(Edificio origen, Edificio destino, double distancia, boolean tieneEscaleras, boolean activo) {
+    public Aristas(Edificio origen, Edificio destino, double distancia, boolean tieneEscaleras, boolean activo) {
         this.origen = origen;
         this.destino = destino;
         this.distancia = distancia;
