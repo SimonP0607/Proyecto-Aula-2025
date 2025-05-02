@@ -146,6 +146,11 @@ public class MapaCampus {
         
         return resultado;
     }
+
+	public int getCantidadEdificios() {
+		return cantidadEdificios;
+	}
+	
 }
 
 

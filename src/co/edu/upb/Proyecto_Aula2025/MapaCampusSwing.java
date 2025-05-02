@@ -22,10 +22,13 @@ public class MapaCampusSwing extends JFrame {
 
         mapa = new MapaCampus();
         inicializarMapa();
+        
+        PanelMapaVisual panelVisual = new PanelMapaVisual(mapa);
 
 
         JPanel panelContenedor = new JPanel(new BorderLayout());
         JPanel panelControles = new JPanel();
+        
         
         comboOrigen = new JComboBox<>();
         comboDestino = new JComboBox<>();
@@ -55,6 +58,9 @@ public class MapaCampusSwing extends JFrame {
         panelContenedor.add(panelControles, BorderLayout.NORTH);
         panelContenedor.add(scrollResultado, BorderLayout.CENTER);
         
+     // panelContenedor.add(scrollResultado, BorderLayout.CENTER);
+        panelContenedor.add(panelVisual, BorderLayout.CENTER);
+        
         add(panelContenedor);
         
         btnCalcular.addActionListener(new ActionListener() {
@@ -73,20 +79,20 @@ public class MapaCampusSwing extends JFrame {
     
     private void inicializarMapa() {
     
-	    Edificio a = new Edificio("A", 0);
-	    Edificio b = new Edificio("B", 1);
-	    Edificio c = new Edificio("C", 2);
-	    Edificio d = new Edificio("D", 3);
-	    Edificio e = new Edificio("E", 4);
-	    Edificio f = new Edificio("F", 5);
-	    Edificio g = new Edificio("G", 6);
-	    Edificio h = new Edificio("H", 7);
-	    Edificio i = new Edificio("I", 8);
-	    Edificio j = new Edificio("J", 9);
-	    Edificio k = new Edificio("K", 10);
-	    Edificio l = new Edificio("L", 11);
-	    Edificio p1 = new Edificio("P1", 12);
-	    Edificio cf = new Edificio("CF", 13);
+	    Edificio a = new Edificio("A", 0, 205, 148);
+	    Edificio b = new Edificio("B", 1, 205, 185);
+	    Edificio c = new Edificio("C", 2, 205, 238);
+	    Edificio d = new Edificio("D", 3, 310, 242);
+	    Edificio e = new Edificio("E", 4, 370, 320);
+	    Edificio f = new Edificio("F", 5, 630, 230);
+	    Edificio g = new Edificio("G", 6, 595, 275);
+	    Edificio h = new Edificio("H", 7, 635, 320);
+	    Edificio i = new Edificio("I", 8, 570, 360);
+	    Edificio j = new Edificio("J", 9, 700, 370);
+	    Edificio k = new Edificio("K", 10, 290, 290);
+	    Edificio l = new Edificio("L", 11, 760, 120);
+	    Edificio p1 = new Edificio("P1", 12, 740, 245);
+	    Edificio cf = new Edificio("CF", 13, 260, 210);
 	
 	    Edificio[] edificios = {a, b, c, d, e, f, g, h, i, j, k, l, p1, cf};
 	    for (Edificio ed : edificios) mapa.agregarEdificio(ed); //AGREGA EDIFICIOS AL MAPA

@@ -4,10 +4,14 @@ public class Edificio {
 
 	private String nombre;
     private int id;
+    private int x;
+    private int y;
 
-    public Edificio(String nombre, int id) {
+    public Edificio(String nombre, int id, int x, int y) {
         this.nombre = nombre;
         this.id = id;
+        this.x = x;
+        this.y = y;
     }
 
     public String getNombre() {
@@ -18,8 +22,16 @@ public class Edificio {
     public int getId() { 
     	return id;
     }
+    
+    public int getX() {
+		return x;
+	}
 
-    @Override
+	public int getY() {
+		return y;
+	}
+
+	@Override
     public String toString() {
         return "Edifcio "+nombre; 
     }
