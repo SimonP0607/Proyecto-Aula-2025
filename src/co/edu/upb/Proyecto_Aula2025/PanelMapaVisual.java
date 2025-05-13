@@ -2,7 +2,6 @@ package co.edu.upb.Proyecto_Aula2025;
 
 import javax.swing.*;
 import java.awt.*;
-<<<<<<< HEAD
 
 
 public class PanelMapaVisual extends JPanel {
@@ -12,14 +11,6 @@ public class PanelMapaVisual extends JPanel {
     private final int altoBase = 790;
     private Edificio[] caminoCalculado;
 
-=======
-
-public class PanelMapaVisual extends JPanel {
-
-    private MapaCampus mapa;
-    private Image fondoMapa;
-
->>>>>>> 0ed93380edb78f85d1bd21757ac8e6bdd447f78b
     // Constructor
     public PanelMapaVisual(MapaCampus mapa) {
         this.mapa = mapa;
@@ -31,7 +22,6 @@ public class PanelMapaVisual extends JPanel {
     // Dibujo
     @Override
     protected void paintComponent(Graphics g) {
-<<<<<<< HEAD
     	
     	super.paintComponent(g);
     	
@@ -88,29 +78,5 @@ public class PanelMapaVisual extends JPanel {
     public void setRuta(Edificio[] camino) {
         this.caminoCalculado = camino;
         repaint(); // Redibuja para mostrar el nuevo camino
-=======
-        super.paintComponent(g);
-
-        // Dibujar imagen de fondo al tamaño del panel
-        g.drawImage(fondoMapa, 0, 0, getWidth(), getHeight(), this);
-        
-        Edificio[] edificios = mapa.obtenerTodosLosEdificios();
-        
-        for (int i = 0; i < mapa.getCantidadEdificios(); i++) {
-        	Edificio e = edificios[i];
-        	int x = e.getX();
-        	int y = e.getY();
-        	
-        	g.setColor(Color.CYAN);
-        	g.fillOval(x, y, 20, 20);
-        	g.setColor(Color.BLACK);
-        	g.drawOval(x, y, 20, 20);
-        	
-        	g.drawString(e.getNombre(), x, y);
-        }
->>>>>>> 0ed93380edb78f85d1bd21757ac8e6bdd447f78b
     }
-    
-    
-    
 }
