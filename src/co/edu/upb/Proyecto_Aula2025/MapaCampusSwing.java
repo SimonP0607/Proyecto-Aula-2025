@@ -59,6 +59,10 @@ public class MapaCampusSwing extends JFrame {
         panelContenedor.add(panelControles, BorderLayout.NORTH);
         panelContenedor.add(scrollResultado, BorderLayout.CENTER);
         
+<<<<<<< HEAD
+=======
+     // panelContenedor.add(scrollResultado, BorderLayout.CENTER);
+>>>>>>> 0ed93380edb78f85d1bd21757ac8e6bdd447f78b
         panelContenedor.add(panelVisual, BorderLayout.CENTER);
         
         add(panelContenedor);
@@ -99,6 +103,7 @@ public class MapaCampusSwing extends JFrame {
     
     private void inicializarMapa() {
     
+<<<<<<< HEAD
     	Edificio a = new Edificio("A", 0, 0.2500, 0.3000);
     	Edificio b = new Edificio("B", 1, 0.2900, 0.3700);
     	Edificio c = new Edificio("C", 2, 0.2500, 0.4700);
@@ -113,6 +118,22 @@ public class MapaCampusSwing extends JFrame {
     	Edificio l = new Edificio("L", 11, 0.9, 0.8);
     	Edificio p1 = new Edificio("P1", 12, 0.13, 0.45);
     	Edificio cf = new Edificio("CF", 13, 0.33, 0.44);
+=======
+	    Edificio a = new Edificio("A", 0, 205, 148);
+	    Edificio b = new Edificio("B", 1, 205, 185);
+	    Edificio c = new Edificio("C", 2, 205, 238);
+	    Edificio d = new Edificio("D", 3, 310, 242);
+	    Edificio e = new Edificio("E", 4, 370, 320);
+	    Edificio f = new Edificio("F", 5, 630, 230);
+	    Edificio g = new Edificio("G", 6, 595, 275);
+	    Edificio h = new Edificio("H", 7, 635, 320);
+	    Edificio i = new Edificio("I", 8, 570, 360);
+	    Edificio j = new Edificio("J", 9, 700, 370);
+	    Edificio k = new Edificio("K", 10, 290, 290);
+	    Edificio l = new Edificio("L", 11, 760, 120);
+	    Edificio p1 = new Edificio("P1", 12, 740, 245);
+	    Edificio cf = new Edificio("CF", 13, 260, 210);
+>>>>>>> 0ed93380edb78f85d1bd21757ac8e6bdd447f78b
 	
 	    Edificio[] edificios = {a, b, c, d, e, f, g, h, i, j, k, l, p1, cf};
 	    for (Edificio ed : edificios) mapa.agregarEdificio(ed); //AGREGA EDIFICIOS AL MAPA
