@@ -2,90 +2,81 @@ package co.edu.upb.Proyecto_Aula2025;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 public class PanelMapaVisual extends JPanel {
-    private MapaCampus mapa;
-    private Map<Edificio, Point> posiciones;
+	private MapaCampus mapa;
+    private Image fondoMapa;
+    private final int anchoBase = 1894;
+    private final int altoBase = 790;
+    private Edificio[] caminoCalculado;
 
+    // Constructor
     public PanelMapaVisual(MapaCampus mapa) {
         this.mapa = mapa;
-        this.posiciones = new HashMap<>();
-        asignarPosiciones();
-        setPreferredSize(new Dimension(800, 600));
-        setBackground(Color.WHITE);
+
+        // Cargar la imagen de fondo desde recursos
+        fondoMapa = new ImageIcon(getClass().getResource("/recursos/MAPA_UPB_2025.png")).getImage();
     }
 
-    private void asignarPosiciones() {
-        // Ubicaciones manuales estilo mapa de pizarra
-        for (Edificio e : mapa.obtenerTodosLosEdificios()) {
-            switch (e.getNombre()) {
-                case "A" -> posiciones.put(e, new Point(100, 400));
-                case "B" -> posiciones.put(e, new Point(200, 400));
-                case "C" -> posiciones.put(e, new Point(300, 400));
-                case "CF" -> posiciones.put(e, new Point(250, 300));
-                case "D" -> posiciones.put(e, new Point(400, 300));
-                case "E" -> posiciones.put(e, new Point(450, 250));
-                case "F" -> posiciones.put(e, new Point(500, 300));
-                case "G" -> posiciones.put(e, new Point(550, 300));
-                case "H" -> posiciones.put(e, new Point(550, 250));
-                case "I" -> posiciones.put(e, new Point(500, 150));
-                case "J" -> posiciones.put(e, new Point(400, 400));
-                case "K" -> posiciones.put(e, new Point(450, 50));
-                case "L" -> posiciones.put(e, new Point(600, 150));
-                case "P1" -> posiciones.put(e, new Point(350, 500));
-            }
-        }
-    }
-
+    // Dibujo
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(2));
+    	
+    	super.paintComponent(g);
+    	
+    	// Calcular escala para mantener relación de aspecto
+    	double escalaX = (double) getWidth() / anchoBase;
+    	double escalaY = (double) getHeight() / altoBase;
+    	double escala = Math.min(escalaX, escalaY);
 
-        // Dibujar caminos
-        for (Edificio origen : mapa.obtenerTodosLosEdificios()) {
-            List<Aristas> caminos = mapa.obtenerCaminosDesde(origen);
-            Point puntoOrigen = posiciones.get(origen);
+    	// Calcular tamaño final de la imagen
+    	int imagenAncho = (int)(anchoBase * escala);
+    	int imagenAlto = (int)(altoBase * escala);
 
-            for (Aristas camino : caminos) {
-                Edificio destino = camino.getDestino();
-                Point puntoDestino = posiciones.get(destino);
+    	// Centrar la imagen
+    	int offsetX = (getWidth() - imagenAncho) / 2;
+    	int offsetY = (getHeight() - imagenAlto) / 2;
 
-                if (puntoDestino == null || puntoOrigen == null) continue;
+    	// Dibujar la imagen centrada y escalada
+    	g.drawImage(fondoMapa, offsetX, offsetY, imagenAncho, imagenAlto, this);
 
-                // Color según estado
-                if (!camino.estaActivo()) {
-                    g2.setColor(Color.RED);
-                } else if (camino.tieneEscaleras()) {
-                    g2.setColor(Color.ORANGE);
-                } else {
-                    g2.setColor(Color.BLACK);
-                }
+    	// Ahora dibujar los nodos encima de la imagen
+    	Edificio[] edificios = mapa.obtenerTodosLosEdificios();
+        int cantidad = mapa.getCantidadEdificios();
 
-                g2.drawLine(puntoOrigen.x, puntoOrigen.y, puntoDestino.x, puntoDestino.y);
+        for (int i = 0; i < cantidad; i++) {
+            Edificio e = edificios[i];
 
-                // Etiqueta de distancia
-                int mx = (puntoOrigen.x + puntoDestino.x) / 2;
-                int my = (puntoOrigen.y + puntoDestino.y) / 2;
-                g2.setColor(Color.BLUE);
-                g2.drawString(camino.getDistancia() + "m", mx, my);
+            int x = offsetX + (int)(e.getXRelativo() * imagenAncho);
+            int y = offsetY + (int)(e.getYRelativo() * imagenAlto);
+
+            g.setColor(Color.RED);
+            g.fillOval(x - 10, y - 10, 20, 20);
+            g.setColor(Color.BLACK);
+            g.drawOval(x - 10, y - 10, 20, 20);
+        	g.drawString(e.getNombre(), x, y);
+        }
+        
+     // DIBUJAR ARISTAS DE LA RUTA CALCULADA
+        if (caminoCalculado != null && caminoCalculado.length > 1) {
+            g.setColor(Color.BLUE);
+            for (int i = 0; i < caminoCalculado.length - 1; i++) {
+                Edificio origen = caminoCalculado[i];
+                Edificio destino = caminoCalculado[i + 1];
+
+                int x1 = offsetX + (int)(origen.getXRelativo() * imagenAncho);
+                int y1 = offsetY + (int)(origen.getYRelativo() * imagenAlto);
+                int x2 = offsetX + (int)(destino.getXRelativo() * imagenAncho);
+                int y2 = offsetY + (int)(destino.getYRelativo() * imagenAlto);
+
+                g.drawLine(x1, y1, x2, y2);
             }
         }
-
-        // Dibujar nodos
-        for (Edificio edificio : mapa.obtenerTodosLosEdificios()) {
-            Point p = posiciones.get(edificio);
-            if (p == null) continue;
-
-            g2.setColor(Color.CYAN);
-            g2.fillOval(p.x - 15, p.y - 15, 30, 30);
-            g2.setColor(Color.BLACK);
-            g2.drawOval(p.x - 15, p.y - 15, 30, 30);
-            g2.drawString(edificio.getNombre(), p.x - 5, p.y + 5);
-        }
+    }
+    
+    public void setRuta(Edificio[] camino) {
+        this.caminoCalculado = camino;
+        repaint(); // Redibuja para mostrar el nuevo camino
     }
 }

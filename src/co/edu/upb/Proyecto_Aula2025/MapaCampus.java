@@ -50,77 +50,75 @@ public class MapaCampus {
     }
     
 
-    //Busca la ruta mas corta entre edificios
-    public String buscarRutaMasCorta(Edificio origen, Edificio destino, boolean evitarEscaleras) {
-       double[] distancias = new double[cantidadEdificios];
-       boolean[] visitados = new boolean[cantidadEdificios];
-       int[] anteriores = new int[cantidadEdificios];
-       String resultado = "";//CONTRUCCIÖN DEL CAMINO
-       
-       
-       for (int i = 0; i < cantidadEdificios; i++) {
-    	   distancias[i] = Double.POSITIVE_INFINITY;
-    	   visitados[i]= false;
-    	   anteriores[i] = -1;
-       }
-       
-       int idOrigen = origen.getId();
-       distancias[idOrigen] = 0;
-       
-     //1. BUSCAR EL NODO NO VISITADO CON MENOR DISTANCIA
-       for (int paso = 0; paso < cantidadEdificios; paso++) {
-    	   int actual = -1;
-    	   double menorDistancia = Double.POSITIVE_INFINITY;
-    	   
-    	   for (int i = 0; i < cantidadEdificios; i++) {
-    		   if (!visitados[i] && distancias[i] < menorDistancia) {
-    			   menorDistancia = distancias[i];
-    			   actual = i;
-    		   }
-    	   }
-    	   
-    	   if(actual == -1) break; //NO HAY MÁS ALCANZABLES
-    	   
-    	   //2. MARCAR COMO VISTADO
-    	   visitados[actual] = true;
-    	   
-    	   for (int vecino = 0; vecino < cantidadEdificios; vecino++) {
-    		   Aristas arista = matrizAdyacencia[actual][vecino];
-    		   
-    		   if (arista !=null && arista.estaActivo()) {
-    			   if(evitarEscaleras && arista.tieneEscaleras()) {
-    				   continue; //SI SE QUIERE EVITAR ESCALERAS, SE SALTA LA ARISTA ACTUAL
-    			   }
-    			   
-    			   double nuevaDistancia = distancias[actual] + arista.getDistancia();
-    			   
-    			   if(nuevaDistancia < distancias[vecino]) {
-    				   distancias[vecino] = nuevaDistancia;
-    				   anteriores[vecino] = actual; //ACTUAL ES EL NODO ANTERIOR AL VECINO
-    			   }
-    		   }
-    	   }
-    	   
-       }
-       
-       int idDestino = destino.getId();
-       if(distancias[idDestino] == Double.POSITIVE_INFINITY) {
-    	   resultado += "No hay ruta disponible desde "+ origen.getNombre() + " hasta " + destino.getNombre();
-    	   return resultado;
-       }
-       
-       int actual = idDestino;
-       String ruta = "";
-       
-       while (actual != -1) {
-    	   ruta = edificios[actual].getNombre() + " -> " + ruta;
-    	   actual = anteriores[actual];
-       }
-       
-       resultado += "Ruta más corta: " + ruta + "\\n";
-       resultado += "Distancia total: " + distancias[idDestino] + " metros\\n";
-       
-       return resultado;
+    //Busca la ruta mas corta entre edificios 
+    public Edificio[] buscarRutaMasCorta(Edificio origen, Edificio destino, boolean evitarEscaleras) {
+        double[] distancias = new double[cantidadEdificios];
+        boolean[] visitados = new boolean[cantidadEdificios];
+        int[] anteriores = new int[cantidadEdificios];
+
+        for (int i = 0; i < cantidadEdificios; i++) {
+            distancias[i] = Double.POSITIVE_INFINITY;
+            visitados[i] = false;
+            anteriores[i] = -1;
+        }
+
+        int idOrigen = origen.getId();
+        distancias[idOrigen] = 0;
+
+        for (int paso = 0; paso < cantidadEdificios; paso++) {
+            int actual = -1;
+            double menorDistancia = Double.POSITIVE_INFINITY;
+
+            for (int i = 0; i < cantidadEdificios; i++) {
+                if (!visitados[i] && distancias[i] < menorDistancia) {
+                    menorDistancia = distancias[i];
+                    actual = i;
+                }
+            }
+
+            if (actual == -1) break;
+
+            visitados[actual] = true;
+
+            for (int vecino = 0; vecino < cantidadEdificios; vecino++) {
+                Aristas arista = matrizAdyacencia[actual][vecino];
+
+                if (arista != null && arista.estaActivo()) {
+                    if (evitarEscaleras && arista.tieneEscaleras()) continue;
+
+                    double nuevaDistancia = distancias[actual] + arista.getDistancia();
+
+                    if (nuevaDistancia < distancias[vecino]) {
+                        distancias[vecino] = nuevaDistancia;
+                        anteriores[vecino] = actual;
+                    }
+                }
+            }
+        }
+
+        // Construir el camino como lista
+        int idDestino = destino.getId();
+        if (distancias[idDestino] == Double.POSITIVE_INFINITY) {
+            return new Edificio[0]; // no hay camino
+        }
+
+        // Contar longitud del camino
+        int actual = idDestino;
+        int longitud = 0;
+        while (actual != -1) {
+            longitud++;
+            actual = anteriores[actual];
+        }
+
+        // Construir el arreglo de edificios desde el destino al origen
+        Edificio[] camino = new Edificio[longitud];
+        actual = idDestino;
+        for (int i = longitud - 1; i >= 0; i--) {
+            camino[i] = edificios[actual];
+            actual = anteriores[actual];
+        }
+
+        return camino;
     }
 
 
@@ -135,6 +133,17 @@ public class MapaCampus {
          
          return adyacentes;
     }
+    
+    public double getDistanciaDeRuta(Edificio[] camino) {
+        double total = 0;
+        for (int i = 0; i < camino.length - 1; i++) {
+            Aristas arista = matrizAdyacencia[camino[i].getId()][camino[i + 1].getId()];
+            if (arista != null) {
+                total += arista.getDistancia();
+            }
+        }
+        return total;
+    }
 
     // Obtener todos los edificios del campus
     public Edificio[] obtenerTodosLosEdificios() {
@@ -146,6 +155,11 @@ public class MapaCampus {
         
         return resultado;
     }
+
+	public int getCantidadEdificios() {
+		return cantidadEdificios;
+	}
+	
 }
 
 
