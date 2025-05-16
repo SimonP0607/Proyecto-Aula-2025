@@ -2,6 +2,8 @@ package co.edu.upb.Proyecto_Aula2025;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 
 
 public class PanelMapaVisual extends JPanel {
@@ -52,9 +54,9 @@ public class PanelMapaVisual extends JPanel {
             int y = offsetY + (int)(e.getYRelativo() * imagenAlto);
 
             g.setColor(Color.RED);
-            g.fillOval(x - 10, y - 10, 20, 20);
+            g.fillOval(x - 10, y - 10, 25, 25);
             g.setColor(Color.BLACK);
-            g.drawOval(x - 10, y - 10, 20, 20);
+            g.drawOval(x - 10, y - 10, 25, 25);
         	g.drawString(e.getNombre(), x, y);
         }
         
@@ -70,6 +72,8 @@ public class PanelMapaVisual extends JPanel {
                 int x2 = offsetX + (int)(destino.getXRelativo() * imagenAncho);
                 int y2 = offsetY + (int)(destino.getYRelativo() * imagenAlto);
 
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setStroke(new BasicStroke(3));
                 g.drawLine(x1, y1, x2, y2);
             }
         }

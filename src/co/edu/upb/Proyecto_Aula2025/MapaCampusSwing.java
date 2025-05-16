@@ -16,7 +16,7 @@ public class MapaCampusSwing extends JFrame {
     private JTextArea textoRuta;
 
     public MapaCampusSwing() {
-        setTitle("Mapa Interactivo del Campus");
+        setTitle("Mapa UPB");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -123,19 +123,22 @@ public class MapaCampusSwing extends JFrame {
 	    mapa.agregarArista(b, cf, 21.2, true, true);
 	    mapa.agregarArista(b, c, 26.93, false, true);
 	    mapa.agregarArista(c, j, 104.07, false, true);
-	    mapa.agregarArista(cf, d, 30.35, false, true);
+	    mapa.agregarArista(cf, d, 30.35, true, true);
 	    mapa.agregarArista(d, g, 74.81, false, true);
 	    mapa.agregarArista(d, j, 61.02, true, true);
-	    mapa.agregarArista(d, k, 136.22, false, true);
-	    mapa.agregarArista(d, e, 66.26, false, true);
+	    mapa.agregarArista(d, k, 136.22, true, true);
+	    mapa.agregarArista(d, f, 46.83, true, true);
+	    mapa.agregarArista(d, e, 66.26, true, true);
 	    mapa.agregarArista(e, f, 14.6, false, true);
-	    mapa.agregarArista(e, i, 106.14, false, true);
-	    mapa.agregarArista(f, g, 16.33, false, true);
+	    mapa.agregarArista(e, i, 106.14, true, true);
+	    mapa.agregarArista(f, g, 41.46, false, true);
 	    mapa.agregarArista(f, h, 34.27, false, true);
-	    mapa.agregarArista(h, i, 119.27, false, true);
-	    mapa.agregarArista(h, l, 163.68, true, true);
+	    mapa.agregarArista(g, h, 48.23, false, true);
+	    mapa.agregarArista(h, i, 119.27, true, true);
+	    mapa.agregarArista(h, l, 163.68, false, true);
 	    mapa.agregarArista(i, k, 138.99, false, true);
 	    mapa.agregarArista(i, l, 44.11, false, true);
+	    mapa.agregarArista(j, g, 77.66, false, true);
 	    mapa.agregarArista(k, l, 166.52, false, true);
     }
     public static void main(String[] args) {
